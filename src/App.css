@@ -40,6 +40,26 @@ h2 {
 .navbar-dark {
   background-color: #901CAD;
 }
+/* transition when a component is mounted */
+.page-enter {
+  opacity: 0;
+  transform:  translateX(-100%)
+}
+/* transition to an opac.. in 300 ms */
+.page-enter-active {
+  opacity: 1;
+  transform:  translateX(0%);
+  transition: 300ms ease-out;
+}
+
+.page-exit {
+  opacity:1;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: 300ms ease-in;
+}
 
 /* .App {
   text-align: center;

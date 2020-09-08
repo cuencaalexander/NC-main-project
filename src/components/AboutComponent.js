@@ -1,13 +1,17 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media, CardImg } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 
 function RenderPartner({partner}) {
     if (partner) {
         return (
             <React.Fragment>
-                <Media object src={partner.image} alt={partner.name} width="150" />
+                {/* <PartnerList></PartnerList> */}
+                <Media object src={baseUrl + partner.image} alt={partner.name} width="150" />
                 <Media body className="ml-5 mb-4">
+                    {/* <CardImg src={baseUrl + partner.image} alt={partner.name} /> */}
                     <Media heading>
                         {partner.name}
                     </Media>
@@ -22,15 +26,77 @@ function RenderPartner({partner}) {
     }
 }
 
-function About(props) {
-
-    const partners = props.partners.map(partner => {
+function PartnerList(partners) {
+    console.log("props")
+    console.log(partners)
+    console.log(partners.partners)
+    console.log(partners.partners.partners)
+    const partnerss = partners.partners.partners.map(partner => {
         return (
             <Media tag="li" key={partner.id}>
-                <RenderPartner partner={partner}/>
+                <RenderPartner partner={partner} />
             </Media>
         );
     });
+    if (partners.partners.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    if (partners.partners.errMess) {
+        return (
+            <div className="col">
+                <h4>{partners.partners.errMess}</h4>
+            </div>
+        );
+    }
+
+    return (
+        <div className="col mt-4">
+            <Media list>
+                {partnerss}
+            </Media>
+        </div>
+    )
+}
+
+// function PartnerList({ partners, isLoading, errMess }) {
+//     console.log("props")
+//     console.log({ partners, isLoading, errMess })
+//     if (partners.isLoading) {
+//         return <Loading />;
+//     }
+//     if (partners.errMess) {
+//         return <h4>{errMess}</h4>
+//     }
+//     const partnerss = partners.partners.map(partner => {
+//     return (
+//         <Media tag="li" key={partner.id}>
+//             <RenderPartner partner={partner} />
+//         </Media>
+//     );
+//     });
+//     return (
+//         <div>
+//             {partnerss}
+//         </div>
+//     )
+// }
+
+function About(props) {
+    console.log('||||||||||||')
+    console.log(props.partners.partners)
+    // const partners = props.partners.partners.map(partner => {
+    //     return (
+    //         <Media tag="li" key={partner.id}>
+    //             <RenderPartner partner={partner} />
+    //         </Media>
+    //     );
+    // });
 
     return (
         <div className="container">
@@ -85,10 +151,12 @@ function About(props) {
                     <h3>Community Partners</h3>
                 </div>
                 <div className="col mt-4">
-                    <Media list>
+                    <PartnerList partners={props.partners} />
+                    {/* <Media list>
                         {partners}
-                    </Media>
+                    </Media> */}
                 </div>
+
             </div>
         </div>
     );
