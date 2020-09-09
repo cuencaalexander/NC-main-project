@@ -3,8 +3,9 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media, CardImg 
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
 
-function RenderPartner({partner}) {
+function RenderPartner({ partner }) {
     if (partner) {
         return (
             <React.Fragment>
@@ -33,9 +34,11 @@ function PartnerList(partners) {
     console.log(partners.partners.partners)
     const partnerss = partners.partners.partners.map(partner => {
         return (
-            <Media tag="li" key={partner.id}>
-                <RenderPartner partner={partner} />
-            </Media>
+            <Fade in key={partner.id}>
+                <Media tag="li">
+                    <RenderPartner partner={partner} />
+                </Media>
+            </Fade>
         );
     });
     if (partners.partners.isLoading) {
@@ -58,7 +61,9 @@ function PartnerList(partners) {
     return (
         <div className="col mt-4">
             <Media list>
-                {partnerss}
+                <Stagger in>
+                    {partnerss}
+                </Stagger>
             </Media>
         </div>
     )
