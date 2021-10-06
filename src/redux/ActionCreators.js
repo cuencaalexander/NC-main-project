@@ -5,17 +5,17 @@ import { baseUrl } from '../shared/baseUrl';
 export const fetchCampsites = () => dispatch => {
     dispatch(campsitesLoading());
 
-    return fetch(baseUrl + 'campsites') //the fetch might take time
-        .then(response => { //as long as there is a response from server this promise considers the fetch(..) resolved. Rejected only if no response from the server.
-            if (response.ok) {//good response
+    return fetch(baseUrl + 'campsites')
+        .then(response => {
+            if (response.ok) {
                 return response;
-            } else {//bad response 404, etc. Server is up and running. Promise was resolved not rejected, but with failed status code
+            } else {
                 const error = new Error(`Error ${response.status}: ${response.statusText}`);
                 error.response = response;
                 throw error;
             }
         },
-            error => {//no response from server at all
+            error => {
                 const errMess = new Error(error.message);
                 throw errMess;
             }
@@ -23,9 +23,6 @@ export const fetchCampsites = () => dispatch => {
         .then(response => response.json())
         .then(campsites => dispatch(addCampsites(campsites)))
         .catch(error => dispatch(campsitesFailed(error.message)));
-    // setTimeout(() => {
-    //     dispatch(addCampsites(CAMPSITES));
-    // }, 2000);
 };
 
 export const campsitesLoading = () => ({
@@ -44,16 +41,16 @@ export const addCampsites = campsites => ({
 
 export const fetchComments = () => dispatch => {
     return fetch(baseUrl + 'comments')
-        .then(response => { //as long as there is a response from server this promise considers the fetch(..) resolved. Rejected only if no response from the server.
-            if (response.ok) {//good response
+        .then(response => {
+            if (response.ok) {
                 return response;
-            } else {//bad response 404, etc
+            } else {
                 const error = new Error(`Error ${response.status}: ${response.statusText}`);
                 error.response = response;
                 throw error;
             }
         },
-            error => {//no response from server at all
+            error => {
                 const errMess = new Error(error.message);
                 throw errMess;
             }
@@ -89,28 +86,28 @@ export const postComment = (campsiteId, rating, author, text) => dispatch => {
 
     return fetch(baseUrl + 'comments', {
         method: "Post",
-        body: JSON.stringify(newComment), //stringify converts a JavaScript object or value to a JSON string.
-        headers: { //has to be an obj to contain 1 or more objs
+        body: JSON.stringify(newComment),
+        headers: {
             "Content-Type": "application/json"
         }
     })
-    .then(response => { //as long as there is a response from server this promise considers the fetch(..) resolved. Rejected only if no response from the server.
-        if (response.ok) {//good response
+    .then(response => {
+        if (response.ok) {
             return response;
-        } else {//bad response 404, etc
+        } else {
             const error = new Error(`Error ${response.status}: ${response.statusText}`);
             error.response = response;
             throw error;
         }
     },
-        error => { throw error; } //throws an error to the next catch block
-    ) // when the POST request is successful the json-server will send back the data that I sent, like an echo, but it'll insert a unique ID with it
+        error => { throw error; }
+    )
     .then(response => response.json())
-    .then(response => dispatch(addComment(response))) //the redux store will be updated with this dispatch
+    .then(response => dispatch(addComment(response)))
     .catch(error => {
         console.log('post comment', error.message);
         alert('Your comment could not be posted\nError: ' + error.message)
-    });//it will catch any rejected promises or throws
+    });
 };
 
 export const fetchPromotions = () => dispatch => {
@@ -118,16 +115,16 @@ export const fetchPromotions = () => dispatch => {
     dispatch(promotionsLoading());
 
     return fetch(baseUrl + 'promotions')
-        .then(response => { //as long as there is a response from server this promise considers the fetch(..) resolved. Rejected only if no response from the server.
-            if (response.ok) {//good response
+        .then(response => {
+            if (response.ok) {
                 return response;
-            } else {//bad response 404, etc
+            } else {
                 const error = new Error(`Error ${response.status}: ${response.statusText}`);
                 error.response = response;
                 throw error;
             }
         },
-            error => {//no response from server at all
+            error => {
                 const errMess = new Error(error.message);
                 throw errMess;
             }
@@ -191,26 +188,26 @@ export const addPartners = partners => ({
 export const postFeedback = (feedback) => dispatch => {
     return fetch(baseUrl + 'feedback', {
         method: "Post",
-        body: JSON.stringify(feedback), //stringify converts a JavaScript object or value to a JSON string.
-        headers: { //has to be an obj to contain 1 or more objs
+        body: JSON.stringify(feedback),
+        headers: {
             "Content-Type": "application/json"
         }
     })
-    .then(response => { //as long as there is a response from server this promise considers the fetch(..) resolved. Rejected only if no response from the server.
-        if (response.ok) {//good response
+    .then(response => {
+        if (response.ok) {
             return response;
-        } else {//bad response 404, etc
+        } else {
             const error = new Error(`Error ${response.status}: ${response.statusText}`);
             error.response = response;
             throw error;
         }
     },
-        error => { throw error; } //throws an error to the next catch block
-    ) // when the POST request is successful the json-server will send back the data that I sent, like an echo, but it'll insert a unique ID with it
+        error => { throw error; } 
+    ) 
     .then(response => response.json())
     .then(response => alert(`Thank you for your feedback ${JSON.stringify(response)}`))
     .catch(error => {
         console.log('post comment', error.message);
         alert('Your contact info could not be posted\nError: ' + error.message)
-    });//it will catch any rejected promises or throws
+    });
 };

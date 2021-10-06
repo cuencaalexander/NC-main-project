@@ -5,8 +5,6 @@ import { Control, Form, Errors, actions } from 'react-redux-form';
 
 
 const required = val => val && val.length;
-//checks is a value was returned, it'll return to falsy if not
-//will check if it has something in ti
 const maxLength = len => val => !val || (val.length <= len);
 const minLength = len => val => val && (val.length >= len);
 const isNumber = val => !isNaN(+val);
@@ -35,7 +33,6 @@ class Contact extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    //we are passing an arg other than event, we need to wrap the method in another method
     handleBlur = (field) => () => {
         this.setState({
             touched: { ...this.state.touched, [field]: true }
@@ -54,10 +51,7 @@ class Contact extends Component {
 
     handleSubmit(values) {
         console.log("Current state is: " + JSON.stringify(values));
-        // alert("Current state is: " + JSON.stringify(values));
         this.props.resetFeedbackForm();
-        console.log("values")
-        console.log(values)
         this.props.postFeedback(values);
     }
 

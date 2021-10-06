@@ -31,18 +31,17 @@ const mapDispatchToProps = {
     postFeedback: (values) => (postFeedback(values))
 };
 
-class Main extends Component { //container comp
+class Main extends Component {
 
-    componentDidMount() { //ensure the comment and promotions are fetched once the comp is mounted
+    componentDidMount() {
         this.props.fetchCampsites();
-        this.props.fetchComments(); //taken from this.props, in mapDispatchToProps we have the action creators available, 
-        this.props.fetchPromotions(); //what is avail in mapDispatchToP.. is now available in this.props
+        this.props.fetchComments();
+        this.props.fetchPromotions();
         this.props.fetchPartners();
     }
 
     render() {
-        //We are just using this comp to pass values to the Home comp, it's jsut a value carrier
-        const HomePage = () => { //arrow func, so this refers to data from parent props
+        const HomePage = () => {
             return (
                 <Home
                     campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}

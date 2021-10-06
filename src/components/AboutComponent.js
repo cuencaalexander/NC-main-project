@@ -9,10 +9,8 @@ function RenderPartner({ partner }) {
     if (partner) {
         return (
             <React.Fragment>
-                {/* <PartnerList></PartnerList> */}
                 <Media object src={baseUrl + partner.image} alt={partner.name} width="150" />
                 <Media body className="ml-5 mb-4">
-                    {/* <CardImg src={baseUrl + partner.image} alt={partner.name} /> */}
                     <Media heading>
                         {partner.name}
                     </Media>
@@ -28,10 +26,6 @@ function RenderPartner({ partner }) {
 }
 
 function PartnerList(partners) {
-    console.log("props")
-    console.log(partners)
-    console.log(partners.partners)
-    console.log(partners.partners.partners)
     const partnerss = partners.partners.partners.map(partner => {
         return (
             <Fade in key={partner.id}>
@@ -69,39 +63,7 @@ function PartnerList(partners) {
     )
 }
 
-// function PartnerList({ partners, isLoading, errMess }) {
-//     console.log("props")
-//     console.log({ partners, isLoading, errMess })
-//     if (partners.isLoading) {
-//         return <Loading />;
-//     }
-//     if (partners.errMess) {
-//         return <h4>{errMess}</h4>
-//     }
-//     const partnerss = partners.partners.map(partner => {
-//     return (
-//         <Media tag="li" key={partner.id}>
-//             <RenderPartner partner={partner} />
-//         </Media>
-//     );
-//     });
-//     return (
-//         <div>
-//             {partnerss}
-//         </div>
-//     )
-// }
-
 function About(props) {
-    console.log('||||||||||||')
-    console.log(props.partners.partners)
-    // const partners = props.partners.partners.map(partner => {
-    //     return (
-    //         <Media tag="li" key={partner.id}>
-    //             <RenderPartner partner={partner} />
-    //         </Media>
-    //     );
-    // });
 
     return (
         <div className="container">
@@ -157,11 +119,7 @@ function About(props) {
                 </div>
                 <div className="col mt-4">
                     <PartnerList partners={props.partners} />
-                    {/* <Media list>
-                        {partners}
-                    </Media> */}
                 </div>
-
             </div>
         </div>
     );
